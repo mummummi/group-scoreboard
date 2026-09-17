@@ -270,6 +270,8 @@
             if(team) {
                 team.score += delta;
                 
+                // 👇 이 아랫줄을 추가해 주세요!
+        saveToGoogleSheet(team.name, team.score);
                 // 전체 리렌더링 대신 해당 점수 부분만 DOM 업데이트하여 애니메이션 적용
                 const scoreElement = document.getElementById(`score-text-${id}`);
                 if (scoreElement) {
@@ -503,6 +505,14 @@
         window.onload = () => {
             renderTeams();
         };
+        function saveToGoogleSheet(teamName, score) {
+  const webAppUrl = 'https://script.google.com/macros/s/AKfycbwLjO4iK9dG5RCTFHy0xNNyXdGd1diSxibNEVWvl1uuTfyoAJoVL4Jl8haQT1ch5u7a/exec'; // 1단계에서 복사한 URL로 교체
+  fetch(webAppUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify({ team: teamName, score: score })
+  });
+}
     </script>
 </body>
 </html>
